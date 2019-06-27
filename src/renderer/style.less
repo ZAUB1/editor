@@ -1,0 +1,129 @@
+html, body {
+    background-color: rgba(36, 37, 39, 1.0);
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    src: url('./fonts/FiraCode-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url("./fonts/oswald-regular.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@itemsblack: rgb(41, 42, 43);
+@topbarh: 30px;
+@leftpanemarg: 20px;
+@pancolor: rgb(56, 56, 56);
+@bordercolor: rgba(34, 35, 37, 1.0);
+@bottomcolor: rgb(34, 34, 36);
+
+#topbar {
+    position: absolute;
+    height: @topbarh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: @itemsblack;
+}
+
+#exptitle {
+    box-sizing: border-box;
+    position: absolute;
+    height: @topbarh;
+    width: 200px;
+    border-right: .5px solid @bordercolor;
+    border-bottom: .25px solid @bordercolor;
+}
+
+#leftpane {
+    box-sizing: border-box;
+    position: absolute;
+    height: calc(100vh - @topbarh);
+    width: 200px;
+    top: @topbarh;
+    left: 0;
+    background-color: @itemsblack;
+    border-right: .5px solid rgba(34, 35, 37, 1.0);
+}
+
+leftsidetxt {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    color: rgba(255, 255, 255, 0.794);
+    font-size: 12px;
+    font-family: 'Oswald', sans-serif;
+    transform: translate(0, -50%);
+}
+
+smalltxt {
+    position: absolute;
+    top: 50%;
+    color: rgba(255, 255, 255, 0.794);
+    font-size: 10px;
+    font-family: 'Oswald', sans-serif;
+    transform: translate(0, -50%);
+}
+
+#foldername {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: @leftpanemarg;
+    background-color: @pancolor;
+}
+
+#bottombar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background-color: @bottomcolor;
+}
+
+#editor {
+    position: absolute;
+    left: 200px;
+    top: @topbarh;
+    width: calc(100% - 200px);
+    height: calc(100vh - @topbarh - 15px);
+}
+
+exploreritems {
+    position: absolute;
+    top: @leftpanemarg;
+    left: 0;
+    width: 200px;
+    height: calc(100% - @leftpanemarg);
+    display: flex;
+    flex-direction: column;
+}
+
+exploreritem {
+    position: relative;
+    vertical-align: bottom;
+    width: 100%;
+    height: 15px;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    font-size: 10px;
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    background-color: rgba(82, 82, 82, 0.0);
+    transition: all .1s linear;
+    text-indent: 10px;
+}
+
+exploreritem:hover {
+    background-color: rgba(82, 82, 82, 1.0);
+    transition: all .1s linear;
+}
