@@ -10,6 +10,10 @@ $(() => {
     aEditor.setPrintMarginColumn(900);
     aEditor.setShowInvisibles(true);
 
+    aEditor.setOptions({
+        fontFamily: "Fira Code",
+    });
+
     editor.getCurrentFolder((files) => {
         console.log(files);
 
@@ -52,6 +56,6 @@ $(() => {
 
     selectfile = function(file)
     {
-        aEditor.setValue(editor.getFileContent(file));
+        aEditor.setValue(editor.getFileContent(file), -1);
     };
 });

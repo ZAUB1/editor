@@ -12,6 +12,9 @@ module.exports = class Editor {
 
         this.win.loadFile("./src/renderer/index.html");
         this.win.webContents.openDevTools();
+
+        this.win.maximize();
+
         this.currentFiles = [];
     }
 
