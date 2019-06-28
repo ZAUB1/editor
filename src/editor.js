@@ -16,6 +16,7 @@ module.exports = class Editor {
         this.win.maximize();
 
         this.currentFiles = [];
+        this.farr = [];
     }
 
     getCurrentFolder(cb)
@@ -26,13 +27,16 @@ module.exports = class Editor {
 
             let arr = [];
 
+            const ___dirname = __dirname.split("\\").join("/");
+
             files.forEach(file => {
                 if (file.includes("."))
-                    arr.push({n: file, type: "file", extension: file.split(".")[1]});
+                    arr.push({n: file, type: "file", extension: file.split(".")[1], path: ___dirname + "/" + file});
                 else
-                    arr.push({n: file, type: "folder"});
+                    arr.push({n: file, type: "folder", subfiles: [], opened: false, path: ___dirname + "/" + file});
             });
 
+            this.farr = arr;
             this.currentFiles = files;
             cb(arr);
         });
@@ -40,11 +44,50 @@ module.exports = class Editor {
 
     getFileContent(file)
     {
-        return fs.readFileSync(__dirname + "/" + this.currentFiles[file], 'utf8');
+        return fs.readFileSync(file, 'utf8');
     }
 
     saveFile(file, data)
     {
-        return fs.writeFileSync(__dirname + "/" + this.currentFiles[file], data);
+        return fs.writeFileSync(file, data);
+    }
+
+    getFolderFiles(folder, cb)
+    {
+        const index = this.farr.findIndex(p => p.path == folder);
+
+        if (!this.farr[index].opened)
+        {
+            fs.readdir(folder, (err, files) => {
+                if (err)
+                    throw err;
+
+                //console.log(this.farr[folder]);
+
+                let narr = [];
+
+                const ___dirname = __dirname.split("\\").join("/");
+
+                files.forEach(file => {
+                    if (file.includes("."))
+                        narr.push({n: file, type: "file", extension: file.split(".")[1], path: folder + "/" + file});
+                    else
+                        narr.push({n: file, type: "folder", subfiles: [], path: folder + "/" + file});
+                });
+
+                this.farr[index].subfiles = narr;
+
+                cb(this.farr);
+
+                this.farr[index].opened = true;
+            });
+        }
+        else
+        {
+            this.farr[index].subfiles = [];
+            cb(this.farr);
+
+            this.farr[index].opened = false;
+        }
     }
 }
