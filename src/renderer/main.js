@@ -1,4 +1,4 @@
-const {remote} = require('electron');
+const {remote, ipcRenderer} = require('electron');
 const editor = remote.getGlobal("editor");
 const path = require('path');
 const amdLoader = require('../../node_modules/monaco-editor/min/vs/loader.js');
@@ -15,6 +15,8 @@ function uriFromPath(_path)
     }
     return encodeURI('file://' + pathName);
 }
+
+var currentfile;
 
 $(() => {
     var aEditor;
@@ -59,8 +61,6 @@ $(() => {
     });
 
     editor.getCurrentFolder((files) => {
-        console.log(files);
-
         let ht = "";
 
         for (let i = 0; i < files.length; i++)
@@ -100,6 +100,28 @@ $(() => {
 
     selectfile = function(file)
     {
+        currentfile = file;
         aEditor.setValue(editor.getFileContent(file));
     };
+
+    window.addEventListener("keypress", (e) => {
+        if (e.ctrlKey)
+        {
+            console.log(e.keyCode)
+            switch (e.keyCode)
+            {
+                case 19:
+                    if (currentfile)
+                        editor.saveFile(currentfile, aEditor.getValue());
+                    break;
+
+                default:
+                    //
+            }
+        }
+    });
+
+    ipcRenderer.on("askforsave", () => {
+        editor.saveFile(currentfile, aEditor.getValue());
+    });
 });

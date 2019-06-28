@@ -42,4 +42,9 @@ module.exports = class Editor {
     {
         return fs.readFileSync(__dirname + "/" + this.currentFiles[file], 'utf8');
     }
+
+    saveFile(file, data)
+    {
+        return fs.writeFileSync(__dirname + "/" + this.currentFiles[file], data);
+    }
 }

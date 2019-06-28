@@ -1,4 +1,4 @@
-const {app, Menu, MenuItem} = require("electron");
+const {app, Menu, MenuItem, ipcMain} = require("electron");
 
 const menu = new Menu;
 Menu.setApplicationMenu(menu);
@@ -29,7 +29,7 @@ menu.append(new MenuItem({
         {
             label: "Save",
             click: () => {
-                //This is gonna save the current file
+                ipcMain.emit("askforsave");
             }
         },
         {
