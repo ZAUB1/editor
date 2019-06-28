@@ -44,11 +44,18 @@ $(() => {
             value: "",
             language: 'javascript',
             theme: "panda",
-            renderWhitespace: 'boundary',
-            fontFamily: 'Fira Code',
+            fontLigatures: true,
+            renderWhitespace: "all",
+            fontFamily: 'FiraEdit',
+            tabSize: 4,
+            indentSize: 4
         });
 
-        aEditor.getModel().updateOptions({ tabSize: 4 });
+        setTimeout(() => {
+            monaco.editor.remeasureFonts();
+        }, 500);
+
+        //aEditor.getModel().updateOptions({  });
     });
 
     editor.getCurrentFolder((files) => {
