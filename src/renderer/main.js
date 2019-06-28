@@ -21,6 +21,8 @@ var currentfile;
 $(() => {
     var aEditor;
     const expItems = document.getElementById("expi");
+    const folderName = document.getElementById("foldername");
+    const lineCounter = document.getElementById("linecounter");
 
     amdRequire.config({
         baseUrl: uriFromPath(path.join(__dirname, '../../node_modules/monaco-editor/min'))
@@ -58,6 +60,10 @@ $(() => {
         }, 500);
 
         //aEditor.getModel().updateOptions({  });
+
+        aEditor.getModel().onDidChangeContent((event) => {
+            lineCounter.innerHTML = "Lines : " + (aEditor.getValue().split(/\r\n|\r|\n/).length || 0);
+        });
     });
 
     const genFileName = (file) => {
@@ -114,8 +120,10 @@ $(() => {
         expItems.innerHTML = ht;
     };
 
-    editor.getCurrentFolder((files) => {
+    editor.getCurrentFolder((files, fname) => {
         genfiles(files);
+
+        foldername.innerHTML = "<leftsidetxt style='left: 10px'>" + fname + "</leftsidetxt>"
     });
 
     selectfile = function(file)

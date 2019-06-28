@@ -38,7 +38,7 @@ module.exports = class Editor {
 
             this.farr = arr;
             this.currentFiles = files;
-            cb(arr);
+            cb(arr, ___dirname.split("/")[___dirname.split("/").length - 1]);
         });
     }
 
