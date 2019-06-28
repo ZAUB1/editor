@@ -1,17 +1,54 @@
 const {remote} = require('electron');
 const editor = remote.getGlobal("editor");
+const path = require('path');
+const amdLoader = require('../../node_modules/monaco-editor/min/vs/loader.js');
+const amdRequire = amdLoader.require;
+//const amdDefine = amdLoader.require.define;
+const panda = require("./Panda.json").tokenColors;
+
+function uriFromPath(_path)
+{
+    var pathName = path.resolve(_path).replace(/\\/g, '/');
+    if (pathName.length > 0 && pathName.charAt(0) !== '/')
+    {
+        pathName = '/' + pathName;
+    }
+    return encodeURI('file://' + pathName);
+}
 
 $(() => {
-    const aEditor = ace.edit("editor");
+    var aEditor;
     const expItems = document.getElementById("expi");
 
-    aEditor.setTheme("ace/theme/monokai");
-    aEditor.session.setMode("ace/mode/javascript");
-    aEditor.setPrintMarginColumn(900);
-    aEditor.setShowInvisibles(true);
+    amdRequire.config({
+        baseUrl: uriFromPath(path.join(__dirname, '../../node_modules/monaco-editor/min'))
+    });
 
-    aEditor.setOptions({
-        fontFamily: "Fira Code",
+    self.module = undefined;
+    amdRequire(['vs/editor/editor.main'], () => {
+        let arr = [];
+        for (let i = 0; i < panda.length; i++)
+        {
+            arr.push({token: panda[i].scope, foreground: panda[i].settings.foreground});
+        }
+
+        monaco.editor.defineTheme('panda', {
+            base: "vs-dark",
+            inherit: true,
+            rules: arr
+        });
+        monaco.editor.setTheme('panda');
+
+        aEditor = monaco.editor.create(document.getElementById("editor"), {
+            automaticLayout: true,
+            value: "",
+            language: 'javascript',
+            theme: "panda",
+            renderWhitespace: 'boundary',
+            fontFamily: 'Fira Code',
+        });
+
+        aEditor.getModel().updateOptions({ tabSize: 4 });
     });
 
     editor.getCurrentFolder((files) => {
@@ -56,6 +93,6 @@ $(() => {
 
     selectfile = function(file)
     {
-        aEditor.setValue(editor.getFileContent(file), -1);
+        aEditor.setValue(editor.getFileContent(file));
     };
 });
