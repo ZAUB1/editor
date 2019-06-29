@@ -108,6 +108,8 @@ $(() => {
                 const subfiles = file.subfiles;
                 for (let ii = 0; ii < subfiles.length; ii++)
                 {
+                    console.log(subfiles[ii].path);
+
                     if (subfiles[ii].type == "file")
                         ht += "<exploreritem style = 'left: 10px' onclick=\"selectfile('" + subfiles[ii].path + "')\">" + genFileName(subfiles[ii]) + "</exploreritem>\n";
                     else
@@ -172,6 +174,20 @@ $(() => {
                     //
             }
         }
+    });
+
+    const WClient = new WebSocketWebClient("localhost", 8080);
+
+    WClient.On("connected", () => {
+        console.log("Connected to server");
+    });
+
+    WClient.On("changedir", () => {
+        editor.getCurrentFolder((files, fname) => {
+            genfiles(files);
+
+            foldername.innerHTML = "<leftsidetxt style='left: 10px'>" + fname + "</leftsidetxt>"
+        });
     });
 
     ipcRenderer.on("askforsave", () => {

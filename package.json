@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "jquery": "^3.4.1",
-    "monaco-editor": "^0.17.1"
+    "monaco-editor": "^0.17.1",
+    "zsockets": "^1.0.7"
   }
 }

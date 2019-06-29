@@ -17,17 +17,19 @@ module.exports = class Editor {
 
         this.currentFiles = [];
         this.farr = [];
+
+        global.editWin = this.win;
     }
 
     getCurrentFolder(cb)
     {
-        fs.readdir(__dirname, (err, files) => {
+        fs.readdir(process.cwd(), (err, files) => {
             if (err)
                 throw err;
 
             let arr = [];
 
-            const ___dirname = __dirname.split("\\").join("/");
+            const ___dirname = process.cwd().split("\\").join("/");
 
             files.forEach(file => {
                 if (file.includes("."))
@@ -54,7 +56,9 @@ module.exports = class Editor {
 
     getFolderFiles(folder, cb)
     {
-        const index = this.farr.findIndex(p => p.path == folder);
+        var index = this.farr.findIndex(p => p.path == folder);
+
+        console.log(folder);
 
         if (!this.farr[index].opened)
         {
@@ -66,13 +70,13 @@ module.exports = class Editor {
 
                 let narr = [];
 
-                const ___dirname = __dirname.split("\\").join("/");
+                const ___dirname = process.cwd().split("\\").join("/");
 
                 files.forEach(file => {
                     if (file.includes("."))
                         narr.push({n: file, type: "file", extension: file.split(".")[1], path: folder + "/" + file});
                     else
-                        narr.push({n: file, type: "folder", subfiles: [], path: folder + "/" + file});
+                        narr.push({n: file, type: "folder", opened: false, subfiles: [], path: folder + "/" + file});
                 });
 
                 this.farr[index].subfiles = narr;
