@@ -190,7 +190,7 @@ $(() => {
         });
     });
 
-    ipcRenderer.on("askforsave", () => {
+    WClient.On("askforsave", () => {
         editor.saveFile(currentfile, aEditor.getValue());
     });
 });

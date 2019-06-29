@@ -58,8 +58,6 @@ module.exports = class Editor {
     {
         var index = this.farr.findIndex(p => p.path == folder);
 
-        console.log(folder);
-
         if (!this.farr[index].opened)
         {
             fs.readdir(folder, (err, files) => {

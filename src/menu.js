@@ -1,4 +1,4 @@
-const {app, Menu, MenuItem, ipcMain, dialog} = require("electron");
+const {app, Menu, MenuItem, dialog} = require("electron");
 const Socket = require("zsockets");
 
 const WSS = new Socket.WebSocketServer(8080, () => {
@@ -44,7 +44,7 @@ menu.append(new MenuItem({
         {
             label: "Save",
             click: () => {
-                ipcMain.emit("askforsave");
+                WSS.EmitToAll("askforsave");
             }
         },
         {
