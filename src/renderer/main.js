@@ -23,6 +23,7 @@ $(() => {
     const expItems = document.getElementById("expi");
     const folderName = document.getElementById("foldername");
     const lineCounter = document.getElementById("linecounter");
+    const cursorPos = document.getElementById("cursorpos");
 
     amdRequire.config({
         baseUrl: uriFromPath(path.join(__dirname, '../../node_modules/monaco-editor/min'))
@@ -63,6 +64,11 @@ $(() => {
 
         aEditor.getModel().onDidChangeContent((event) => {
             lineCounter.innerHTML = "Lines : " + (aEditor.getValue().split(/\r\n|\r|\n/).length || 0);
+        });
+
+        aEditor.onDidChangeCursorPosition((event) => {
+            const line = aEditor.getPosition();
+            cursorPos.innerHTML = "X: " + line.lineNumber + ", Y: " + line.column;
         });
     });
 
