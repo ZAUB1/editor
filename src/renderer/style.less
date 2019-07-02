@@ -55,6 +55,50 @@ html, body {
     border-bottom: .25px solid @bordercolor;
 }
 
+#tabs {
+    position: absolute;
+    height: @topbarh;
+    width: calc(100% - 200px);
+    top: 0;
+    left: 200px;
+    background-color: @itemsblack;
+    display: flex;
+    flex-direction: column;
+}
+
+tab {
+    box-sizing: border-box;
+    position: relative;
+    vertical-align: bottom;
+    width: 100px;
+    height: 100%;
+    top: 50%;
+    transform: translate(0, -50%);
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    font-size: 14px;
+    font-family: 'OswaldL', sans-serif;
+    color: white;
+    background-color: rgba(82, 82, 82, 0.0);
+    transition: all .1s linear;
+    text-indent: 10px;
+    border-bottom: #19f9d8 .1px solid;
+}
+
+#centeredtxt {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    font-size: 14px;
+    font-family: 'OswaldL', sans-serif;
+    color: white;
+}
+
 #leftpane {
     box-sizing: border-box;
     position: absolute;

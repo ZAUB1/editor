@@ -16,6 +16,10 @@ function uriFromPath(_path)
     return encodeURI('file://' + pathName);
 }
 
+Element.prototype.appendAfter = (element) => {
+    element.parentNode.insertBefore(this, element.nextSibling);
+}, false;
+
 var currentfile;
 
 $(() => {
